@@ -148,7 +148,7 @@ window.onload = function () {
             marker.paint();
             this.markers.add(marker);
             //marker fadein
-            setTimeout(function(){marker.fadeIn();}, 1200);
+            setTimeout(function(){marker.fadeIn();}, 1000 + Math.floor(Math.random()*1200));
         }
     }
     map.object.style.position = 'absolute';
