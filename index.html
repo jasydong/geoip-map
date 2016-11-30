@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="css/maptail.css">
+  <script src="js/raphael-min.js"></script>
+  <script src="js/china-map.js"></script>
+  <title>geoip map</title>
+  <script>
+	//test data
+	var onlineMapData = {"Beijing":{"total":422,"ll":[39.9289,116.3883]},"Shenyang":{"total":94,"ll":[41.7922,123.4328]},"Chengdu":{"total":407,"ll":[30.6667,104.0667]},"Kunming":{"total":2,"ll":[25.0389,102.7183]},"Suzhou":{"total":12,"ll":[31.3114,120.6181]},"Guangzhou":{"total":9,"ll":[23.1167,113.25]},"":{"total":13,"ll":[35,105]},"Hebei":{"total":5,"ll":[39.8189,115.9372]},"Changsha":{"total":3,"ll":[28.1792,113.1136]},"Qingdao":{"total":1,"ll":[36.0986,120.3719]},"Changchun":{"total":7,"ll":[43.88,125.3228]},"Sheung Wan":{"total":1,"ll":[22.2833,114.15]},"Nanjing":{"total":2,"ll":[32.0617,118.7778]},"Dalian":{"total":4,"ll":[38.9122,121.6022]},"Taizhou":{"total":1,"ll":[32.4933,119.9081]},"Chongqing":{"total":3,"ll":[29.5628,106.5528]},"Guiyang":{"total":1,"ll":[26.5833,106.7167]},"Toronto":{"total":2,"ll":[43.6667,429417.3129]},"Chaoyang":{"total":1,"ll":[41.5703,120.4586]},"Xian":{"total":2,"ll":[34.2622,108.9378]},"Nanning":{"total":2,"ll":[22.8167,108.3167]},"Fengxiang":{"total":1,"ll":[34.5242,107.39]},"Hangzhou":{"total":1,"ll":[30.2553,120.1689]},"Chiba":{"total":1,"ll":[35.6,140.1167]},"Shanghai":{"total":1,"ll":[31.005,121.4086]},"Hefei":{"total":1,"ll":[31.8639,117.2808]},"Haikou":{"total":1,"ll":[20.0458,110.3417]}};
+  </script>
+  <script src="js/maptail.js"></script>
+</head>
+<body>
+  <div id="map">
+    <div id="active"><span id="active-number"></span> visitors</div>
+    <div id="citylist"></div>
+    <div id="markers"></div>
+  </div>
+</body>
+</html>
