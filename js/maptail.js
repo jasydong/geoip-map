@@ -7,47 +7,6 @@ function visitorsInc (num=1) { visitors+=num; }
 function visitorsDec (num=1) { visitors-=num; }
 
 // app
-
-function connect (callback) {
-  var simpl = require('simpl');
-  var client = simpl.createClient();
-  client.use(simpl.events());
-  client.use(simpl.json());
-  client.on('connect', callback);
-}
-
-function safe (text) {
-  return text
-    .split('&').join('&amp;')
-    .split('"').join('&quot;')
-    .split('<').join('&lt;')
-    .split('>').join('&gt;');
-}
-
-function ansiToHtml (text) {
-  var colors = {
-    30: "#777"
-  , 31: "red"
-  , 32: "#0f0"
-  , 33: "yellow"
-  , 34: "blue"
-  , 35: "magenta"
-  , 36: "cyan"
-  , 37: "#eee"
-  , 38: "#777"
-  , 39: "#777"
-  }
-  return text.replace(/\033\[(?:(\d+);)?(\d+)m/g, function (m, extra, color) {
-    var style = 'color:' + (colors[color] || '#777');
-    if (extra == 1) {
-      style += ';font-weight=bold';
-    } else if (extra == 4) {
-      style += ';text-decoration=underline';
-    }
-    return '</span><span style="' + style + '">';
-  })
-}
-
 window.onload = function () {
 
   var map = createMap();
@@ -55,9 +14,11 @@ window.onload = function () {
 
   for (var k in onlineMapData) {
     if (!k) {continue;}
-    onlineMapData[k]['city'] = k;console.log(k);
+    onlineMapData[k]['city'] = k;
     map.placeMarker(onlineMapData[k]);
   }
+
+  
 
   function createMap () {
     var map = {};
@@ -73,15 +34,11 @@ window.onload = function () {
       object: document.getElementById('markers')
     , list: {}
     , citylist: document.getElementById('citylist')
-    , freeze: false
     , active: 0
     , add: function (marker) {
         this.list[marker.city] = marker;
-        if (!this.freeze) {
-          this.append(marker);
-        } else {
-          this.freeze.push(marker);
-        }
+        this.append(marker);
+        active.innerHTML = map.markers.active;
       }
     , append: function (marker) {
         var self = this;
@@ -90,36 +47,10 @@ window.onload = function () {
         this.citylist.appendChild(marker.citylist.object);
         this.citylist.insertBefore(marker.citylist.object, this.citylist.firstChild);
         marker.citylist.object.onmouseover = marker.object.onmouseover = function () {
-          clearTimeout(self.freezeTimeout);
-          self.freeze = self.freeze || [];
-          self.freezeRemove = self.freezeRemove || [];
           marker.object.classList.add('hovered');
         }
         marker.citylist.object.onmouseout = marker.object.onmouseout = function () {
-          self.freezeTimeout = setTimeout(function () {
-            self.freeze.forEach(self.append.bind(self));
-            self.freezeRemove.forEach(self.destroy.bind(self));
-            self.freeze = false;
-            self.freezeRemove = false;
-          }, 170);
           marker.object.classList.remove('hovered');
-        }
-      }
-    , remove: function (marker) {
-        if (this.freeze) {
-          this.freezeRemove.push(marker)
-        } else {
-          this.destroy(marker)
-        }
-      }
-    , destroy: function (marker) {
-        if (marker.city in this.list) {
-          //this.active--;
-          try {
-            delete this.list[marker.city];
-            this.object.removeChild(marker.object);
-            //this.citylist.removeChild(marker.citylist.object);
-          } catch (e) {}
         }
       }
     , forEach: function (fn) {
@@ -133,11 +64,6 @@ window.onload = function () {
           marker.paint();
         })
       }
-    , age: function () {
-        this.forEach(function (marker) {
-          //marker.age();
-        })
-      }
     }
     map.placeMarker = function (geo) {
         var marker;
@@ -146,9 +72,9 @@ window.onload = function () {
             visitorsInc(geo.total);
             marker = new Marker(geo);
             marker.paint();
-            this.markers.add(marker);
+            //this.markers.add(marker);
             //marker fadein
-            setTimeout(function(){marker.fadeIn();}, 1000 + Math.floor(Math.random()*1200));
+            setTimeout(function(){map.markers.add(marker);marker.fadeIn();}, 1200 + Math.floor(Math.random()*1500));
         }
     }
     map.object.style.position = 'absolute';
@@ -156,7 +82,7 @@ window.onload = function () {
 
     map.paper = Raphael(map.object);
     map.paper.path(mapVector).attr({
-        stroke: "#666",
+        stroke: "#444",
         'stroke-width': 1.05
     });
 
@@ -172,7 +98,7 @@ window.onload = function () {
       }
       var html =
       '<div class="data">'
-      + '<div class="total">' + geo.total + '</div>'
+      + '<div class="total">Online: ' + geo.total + '</div>'
       + '<div class="location">'
       + (geo.city ? geo.city + ', ' : '') + (geo.country ? geo.country : 'CN')
       + '</div>'
@@ -186,7 +112,7 @@ window.onload = function () {
       this.citylist.object.innerHTML = (geo.city ? '<span class="city">' + geo.city + '</span> ' : '');
       this.citylist.object.innerHTML += this.total + ' <span class="country"></span>';
 
-      this.visitorTimeout = setTimeout(visitorsDec, config.maxAge * 1000);
+      //this.visitorTimeout = setTimeout(visitorsDec, config.maxAge * 1000);
     }
 
     Marker.prototype.paint = function () {
