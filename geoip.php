@@ -6,8 +6,8 @@
  * JasyDong
  */
 
-$filename = '/var/wwwroot/geoip-api-php/data/geoip-city.dat';
-$filename2 = '/var/wwwroot/geoip-api-php/data/geoip-city-names.dat';
+$filename = 'data/geoip-city.dat';
+$filename2 = 'data/geoip-city-names.dat';
 $sz = filesize($filename);
 $sz2 = filesize($filename2);
 $fp = fopen($filename, 'rb');
