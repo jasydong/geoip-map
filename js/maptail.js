@@ -1,24 +1,15 @@
-// config
-var config = { timeDiff: 0 };
-
-// visitors
-var visitors = 0;
-function visitorsInc (num=1) { visitors+=num; }
-function visitorsDec (num=1) { visitors-=num; }
-
 // app
 window.onload = function () {
 
   var map = createMap();
   var active = document.getElementById('active-number');
 
+  //place markers
   for (var k in onlineMapData) {
     if (!k) {continue;}
     onlineMapData[k]['city'] = k;
     map.placeMarker(onlineMapData[k]);
   }
-
-  
 
   function createMap () {
     var map = {};
@@ -67,12 +58,10 @@ window.onload = function () {
     }
     map.placeMarker = function (geo) {
         var marker;
-        geo.date += config.timeDiff;
+
         if (!(geo.city in this.markers.list)) {
-            visitorsInc(geo.total);
             marker = new Marker(geo);
             marker.paint();
-            //this.markers.add(marker);
             //marker fadein
             setTimeout(function(){map.markers.add(marker);marker.fadeIn();}, 1200 + Math.floor(Math.random()*1500));
         }
@@ -111,8 +100,6 @@ window.onload = function () {
       this.citylist.object.className = 'city';
       this.citylist.object.innerHTML = (geo.city ? '<span class="city">' + geo.city + '</span> ' : '');
       this.citylist.object.innerHTML += this.total + ' <span class="country"></span>';
-
-      //this.visitorTimeout = setTimeout(visitorsDec, config.maxAge * 1000);
     }
 
     Marker.prototype.paint = function () {
@@ -172,7 +159,7 @@ window.onload = function () {
   }
 
   ;(function tick () {
-    window.requestAnimFrame(tick);
+    //window.requestAnimFrame(tick);
   }());
 }
 
