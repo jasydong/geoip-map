@@ -2,6 +2,7 @@
 window.onload = function () {
 
   var map = createMap();
+  var delay = 0;
   var active = document.getElementById('active-number');
 
   //place markers
@@ -63,7 +64,8 @@ window.onload = function () {
             marker = new Marker(geo);
             marker.paint();
             //marker fadein
-            setTimeout(function(){map.markers.add(marker);marker.fadeIn();}, 1200 + Math.floor(Math.random()*1500));
+            delay += 50;console.log(delay);
+            setTimeout(function(){map.markers.add(marker);marker.fadeIn();}, 500 + delay);
         }
     }
     map.object.style.position = 'absolute';
