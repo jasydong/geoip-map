@@ -117,16 +117,15 @@ window.onload = function () {
 
     Marker.prototype.setScale = function (num) {
         var scale = 1;
+
         if (num>=10000) {
-            scale = 1.5;
+            scale = 1.3;
         } else if (num>=1000) {
             scale = 1.2;
         } else if (num>=100) {
             scale = 1;
-        } else if (num>=10) {
-            scale = 0.8;
         } else {
-            scale = 0.6;
+            scale = 0.8;
         }
 
         this.object.style.transform = 'scale('+scale+')';
