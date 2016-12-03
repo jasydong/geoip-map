@@ -63,9 +63,10 @@ window.onload = function () {
         if (!(geo.city in this.markers.list)) {
             marker = new Marker(geo);
             marker.paint();
+            marker.setScale(geo.total);
             //marker fadein
-            delay += 50;console.log(delay);
-            setTimeout(function(){map.markers.add(marker);marker.fadeIn();}, 500 + delay);
+            delay += 50;
+            setTimeout(function(){map.markers.add(marker);marker.fadeIn();}, 800 + delay);
         }
     }
     map.object.style.position = 'absolute';
@@ -105,14 +106,31 @@ window.onload = function () {
     }
 
     Marker.prototype.paint = function () {
-      var coords = map.latLongToPx(this.latlon);
-      this.object.style.left = coords.x + 'px';
-      this.object.style.top = coords.y + 'px';
+        var coords = map.latLongToPx(this.latlon);
+        this.object.style.left = coords.x + 'px';
+        this.object.style.top = coords.y + 'px';
     };
-    
+
     Marker.prototype.fadeIn = function() {
         this.object.className = 'marker fadeIn';
     }
+
+    Marker.prototype.setScale = function (num) {
+        var scale = 1;
+        if (num>=10000) {
+            scale = 1.5;
+        } else if (num>=1000) {
+            scale = 1.2;
+        } else if (num>=100) {
+            scale = 1;
+        } else if (num>=10) {
+            scale = 0.8;
+        } else {
+            scale = 0.6;
+        }
+
+        this.object.style.transform = 'scale('+scale+')';
+    };
 
     map.latLongToPx = function (latlon) {
         var px = latLongToPx(latlon[0], latlon[1], map.size.width, map.size.height)
