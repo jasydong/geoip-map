@@ -5,6 +5,7 @@ window.onload = function () {
   var active = document.getElementById('active-number');
   var controls = document.querySelectorAll('#controls .btn');
 
+  map.object.classList.add('fadeIn');
   //place markers
   map.initMarkers(onlineMapData);
 
@@ -23,16 +24,33 @@ window.onload = function () {
             //初始化
             delay = 0;
             map.markers.active = 0;
-            map.markers.object.innerHTML = '';
-            map.markers.list = {};
+            //map.markers.object.innerHTML = '';
+            //map.markers.list = {};
             map.markers.citylist.innerHTML = '';
-            if (this.innerHTML == 'G') {
-                map = createMap('global');
-            } else if (this.innerHTML == 'C') {
-                map = createMap('china');
-            }
+            map.markers.forEach(function(ele){
+                var obj = ele.object;
+                obj.classList.remove('fadeIn');
 
-            map.initMarkers(onlineMapData);
+            });
+
+            var btn = this;
+            setTimeout(function(){
+                map.object.classList.remove('fadeIn');
+                map.markers.object.innerHTML = '';
+                map.markers.list = {};
+
+                setTimeout(function(){
+                    if (btn.innerHTML == 'G') {
+                        map = createMap('global');
+                    } else if (btn.innerHTML == 'C') {
+                        map = createMap('china');
+                    }
+                    map.object.classList.add('fadeIn');
+                    map.initMarkers(onlineMapData);
+                }, 200);
+            }, 600);
+
+            //map.initMarkers(onlineMapData);
         };
       }
   }
@@ -93,7 +111,7 @@ window.onload = function () {
             marker.setScale(geo.total);
             //marker fadein
             delay += 50;
-            setTimeout(function(){map.markers.add(marker);marker.fadeIn();}, 800 + delay);
+            setTimeout(function(){map.markers.add(marker);marker.fadeIn();}, delay);
         }
     }
     map.object.style.position = 'absolute';
@@ -148,7 +166,7 @@ window.onload = function () {
     };
 
     Marker.prototype.fadeIn = function() {
-        this.object.className = 'marker fadeIn';
+        this.object.classList.add('fadeIn');
     }
 
     Marker.prototype.setScale = function (num) {

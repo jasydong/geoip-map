@@ -36,6 +36,10 @@ html, body {
   z-index:0;
   width:100%;
   height:100%;
+  opacity: 0;
+  transition: opacity .5s ease-in-out;
+  -moz-transition: opacity .5s ease-in-out;
+  -webkit-transition: opacity .5s ease-in-out;
 }
 
 #map svg {
@@ -74,13 +78,13 @@ html, body {
   margin-left:-12px;
   cursor: pointer;
   opacity: 0;
+  transition: opacity .5s ease-in-out;
+  -moz-transition: opacity .5s ease-in-out;
+  -webkit-transition: opacity .5s ease-in-out;
 }
 
-.marker.fadeIn {
+#map.fadeIn, .marker.fadeIn {
    opacity: 1;
-   transition: opacity .5s ease-in-out;
-   -moz-transition: opacity .5s ease-in-out;
-   -webkit-transition: opacity .5s ease-in-out;
 }
 
 .marker .data {
