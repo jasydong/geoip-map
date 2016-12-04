@@ -1,19 +1,44 @@
 // app
 window.onload = function () {
-
-  var map = createMap();
+  var map = createMap('global');
   var delay = 0;
   var active = document.getElementById('active-number');
+  var controls = document.querySelectorAll('#controls .btn');
 
   //place markers
-  for (var k in onlineMapData) {
-    if (!k) {continue;}
-    onlineMapData[k]['city'] = k;
-    map.placeMarker(onlineMapData[k]);
+  map.initMarkers(onlineMapData);
+
+  //controls
+  if (controls.length) {
+      var length = controls.length;
+
+      for (var i=0; i<length; i++) {
+        controls[i].onclick = function() {
+            for (var k=0; k<controls.length; k++) {
+                //var index = parseInt(k);
+                controls[k].classList.remove('active');
+            }
+            this.classList.add('active');
+
+            delay = 0;
+            map.markers.active = 0;
+            map.markers.object.innerHTML = '';
+            map.markers.list = {};
+            if (this.innerHTML == 'G') {
+                map = createMap('global');
+            } else if (this.innerHTML == 'C') {
+                map = createMap('china');
+            }
+
+            map.initMarkers(onlineMapData);
+        };
+      }
   }
 
-  function createMap () {
+  function createMap(type) {
     var map = {};
+    var mapVector = (type == 'china') ? chinaMapVector:globalMapVector;
+    map.mapType = type;
     map.object = document.getElementById('map');
     map.size = {
         width: 0,
@@ -72,11 +97,20 @@ window.onload = function () {
     map.object.style.position = 'absolute';
     map.object.style.margin = map.margin + 'px';
 
+    //create map
     map.paper = Raphael(map.object);
     map.paper.path(mapVector).attr({
         stroke: "#444",
         'stroke-width': 1.05
     });
+
+    map.initMarkers = function(markersData) {
+        for (var k in markersData) {
+            if (!k) {continue;}
+            markersData[k]['city'] = k;
+            map.placeMarker(markersData[k]);
+        }
+    };
 
     function Marker (geo) {
       this.total = geo.total;
@@ -119,9 +153,9 @@ window.onload = function () {
         var scale = 1;
 
         if (num>=10000) {
-            scale = 1.3;
-        } else if (num>=1000) {
             scale = 1.2;
+        } else if (num>=1000) {
+            scale = 1.1;
         } else if (num>=100) {
             scale = 1;
         } else {
@@ -132,7 +166,11 @@ window.onload = function () {
     };
 
     map.latLongToPx = function (latlon) {
-        var px = latLongToPx(latlon[0], latlon[1], map.size.width, map.size.height)
+        if (map.mapType == 'global') {
+            var px = globalMapLatLongToPx(latlon[0], latlon[1], map.size.width, map.size.height);
+        } else {
+            var px = chinaMapLatLongToPx(latlon[0], latlon[1], map.size.width, map.size.height);
+        }
         return {
           x: px.x - map.margin,
           y: px.y - map.margin 
