@@ -151,9 +151,10 @@ html, body {
 }
 
 #controls .btn {
-    line-height: 24px;
+    height: 24px;
     width: 24px;
     float: left;
+    line-height: 24px;
 }
 
 #controls .btn.active {
