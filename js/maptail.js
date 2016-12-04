@@ -20,10 +20,12 @@ window.onload = function () {
             }
             this.classList.add('active');
 
+            //初始化
             delay = 0;
             map.markers.active = 0;
             map.markers.object.innerHTML = '';
             map.markers.list = {};
+            map.markers.citylist.innerHTML = '';
             if (this.innerHTML == 'G') {
                 map = createMap('global');
             } else if (this.innerHTML == 'C') {
