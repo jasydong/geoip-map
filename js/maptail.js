@@ -47,8 +47,8 @@ window.onload = function () {
                     }
                     map.object.classList.add('fadeIn');
                     map.initMarkers(onlineMapData);
-                }, 200);
-            }, 600);
+                }, 400);
+            }, 400);
 
             //map.initMarkers(onlineMapData);
         };
