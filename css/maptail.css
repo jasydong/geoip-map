@@ -147,18 +147,20 @@ html, body {
   left: 48%;
   text-align: center;
   cursor: pointer;
-  font-family:Verdana, Arial, Helvetica, sans-serif;
+  font-family:Lucida Grande, Arial, Helvetica, sans-serif;
 }
 
 #controls .btn {
     height: 24px;
     width: 24px;
     float: left;
+    background: #222;
+    opacity: .9;
     line-height: 24px;
 }
 
 #controls .btn.active {
     color: yellow;
-    background: #555;
+    background: #666;
 }
 
