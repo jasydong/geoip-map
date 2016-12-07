@@ -1,6 +1,6 @@
 // app
 window.onload = function () {
-  var map = createMap('global');
+  var map = createMap('china');
   var delay = 0;
   var active = document.getElementById('active-number');
   var controls = document.querySelectorAll('#controls .btn');
@@ -134,6 +134,7 @@ window.onload = function () {
 
     function Marker (geo) {
       this.total = geo.total;
+      this.region = geo.region;
       this.latlon = geo.ll;
       this.city = geo.city;
       
@@ -146,7 +147,7 @@ window.onload = function () {
       '<div class="data">'
       + '<div class="total">Online: ' + geo.total + '</div>'
       + '<div class="location">'
-      + (geo.city ? geo.city + ', ' : '') + (geo.country ? geo.country : 'CN')
+      + (geo.region ? geo.region + ', ' : '') + (geo.country ? geo.country : 'CN')
       + '</div>'
       + '</div>';
       this.object.innerHTML = html;
@@ -154,8 +155,8 @@ window.onload = function () {
       this.citylist = {
         object: document.createElement('div')
       };
-      this.citylist.object.className = 'city';
-      this.citylist.object.innerHTML = (geo.city ? '<span class="city">' + geo.city + '</span> ' : '');
+      this.citylist.object.className = 'region';
+      this.citylist.object.innerHTML = (geo.region ? '<span class="region">' + geo.region + '</span> ' : '');
       this.citylist.object.innerHTML += this.total + ' <span class="country"></span>';
     }
 

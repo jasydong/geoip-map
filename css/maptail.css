@@ -125,6 +125,7 @@ html, body {
   font-family:Lucida Grande, Arial, Helvetica, sans-serif;
   font-size:13px;
   height:800px;
+  cursor:pointer;
   overflow-y: scroll;
 }
 
